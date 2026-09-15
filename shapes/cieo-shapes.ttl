@@ -1,0 +1,410 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix cieo:    <https://w3id.org/cieo/core#> .
+@prefix cst:     <https://w3id.org/cieo/construction#> .
+@prefix insp:    <https://w3id.org/cieo/inspection#> .
+@prefix reg:     <https://w3id.org/cieo/regulation#> .
+@prefix obs:     <https://w3id.org/cieo/observation#> .
+@prefix evd:     <https://w3id.org/cieo/evidence#> .
+@prefix cmp:     <https://w3id.org/cieo/compliance#> .
+@prefix shape:   <https://w3id.org/cieo/shapes#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/cieo/shapes>
+    a owl:Ontology ;
+    dcterms:title "CIEO SHACL shapes — graph integrity constraints"@en ;
+    dcterms:description """Validation constraints for CIEO instance data.
+
+The division of labour across the three reasoning layers is deliberate and worth stating, because
+each layer is being used for what it is good at rather than for everything.
+
+  OWL 2   classification and subsumption. Open-world: it will never tell you that something is
+          missing, because under an open-world assumption a missing triple simply means the fact
+          is not known yet.
+
+  SHACL   integrity constraints over the graph as it stands. Closed-world within its scope, which
+          is exactly what is needed to say 'this decision claims to be settled but carries no
+          sufficiency assessment' — a statement OWL cannot make.
+
+  SPARQL  the derivation rules that generate items and decisions.
+
+The most important shape here is shape:SettledDecisionShape. It refuses any decision in a settled
+state that is not gated by a sufficiency assessment at level Sufficient. That single constraint is
+what makes it structurally impossible for the framework to assert compliance or non-compliance
+without having first established that the evidence could bear the claim — the guarantee is enforced
+by the graph, not merely intended by the code."""@en .
+
+##############################################################################
+# Requirements
+##############################################################################
+
+shape:InspectionRequirementShape
+    a sh:NodeShape ;
+    sh:targetClass insp:InspectionRequirement ;
+    sh:property [
+        sh:path insp:requirementId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Every inspection requirement needs exactly one stable identifier." ;
+    ] ;
+    sh:property [
+        sh:path insp:hasEvidencePattern ;
+        sh:class insp:EvidencePattern ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Every requirement must declare exactly one evidence pattern. The pattern determines the burden of proof, and a requirement without one cannot be reasoned about." ;
+    ] ;
+    sh:property [
+        sh:path insp:specifiedBy ;
+        sh:class reg:RegulatoryClause ;
+        sh:minCount 1 ;
+        sh:message "Every requirement must be grounded in at least one regulatory clause; a decision that cannot cite a clause is not an inspection finding." ;
+    ] ;
+    sh:property [
+        sh:path insp:appliesToPhase ;
+        sh:minCount 1 ;
+        sh:message "Every requirement must be scoped to at least one construction phase, or it will be evaluated when it does not bind." ;
+    ] ;
+    sh:property [
+        sh:path insp:hasCheckability ;
+        sh:class insp:Checkability ;
+        sh:minCount 1 ;
+    ] .
+
+shape:SpatialCompletenessRequirementShape
+    a sh:NodeShape ;
+    sh:targetClass insp:InspectionRequirement ;
+    sh:sparql [
+        sh:message "A spatial-completeness requirement must state its required coverage. Without it the reasoner has no threshold to test continuity against and will silently accept a partial look." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/inspection#hasEvidencePattern>
+                      <https://w3id.org/cieo/inspection#SpatialCompleteness> .
+                FILTER NOT EXISTS {
+                    $this <https://w3id.org/cieo/inspection#requiredCoverage> ?c .
+                }
+            }
+        """ ;
+    ] .
+
+##############################################################################
+# Items and targets
+##############################################################################
+
+shape:InspectionItemShape
+    a sh:NodeShape ;
+    sh:targetClass insp:InspectionItem ;
+    sh:property [
+        sh:path insp:appliesRequirement ;
+        sh:class insp:InspectionRequirement ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path insp:targets ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path insp:inPhase ;
+        sh:class cst:ConstructionPhase ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "An inspection item must be anchored in a phase; requirement applicability is phase-dependent." ;
+    ] .
+
+shape:SpatialTargetExtentShape
+    a sh:NodeShape ;
+    sh:targetClass insp:InspectionTarget ;
+    sh:sparql [
+        sh:message "A target of a spatial-completeness requirement must carry a spatial extent and its unit. Coverage is a fraction of an extent, and a coverage figure over an unknown extent means nothing." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                ?item <https://w3id.org/cieo/inspection#targets> $this ;
+                      <https://w3id.org/cieo/inspection#appliesRequirement> ?req .
+                ?req <https://w3id.org/cieo/inspection#hasEvidencePattern>
+                     <https://w3id.org/cieo/inspection#SpatialCompleteness> .
+                FILTER NOT EXISTS { $this <https://w3id.org/cieo/core#hasSpatialExtent> ?e }
+            }
+        """ ;
+    ] .
+
+##############################################################################
+# Observations
+##############################################################################
+
+shape:VisualDetectionShape
+    a sh:NodeShape ;
+    sh:targetClass obs:VisualDetection ;
+    sh:property [
+        sh:path obs:detectedClass ;
+        sh:class obs:ObjectClass ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:detectionConfidence ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Every detection must carry a confidence in [0,1]." ;
+    ] ;
+    sh:property [
+        sh:path obs:fromImage ;
+        sh:class obs:SiteImage ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:producedBy ;
+        sh:class obs:DetectorModel ;
+        sh:minCount 1 ;
+        sh:message "Every detection must name the model that produced it; the detectability model is per-detector and the trace is broken without it." ;
+    ] .
+
+shape:NonDetectionShape
+    a sh:NodeShape ;
+    sh:targetClass obs:NonDetection ;
+    sh:property [
+        sh:path obs:searchedForClass ;
+        sh:class obs:ObjectClass ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:fromImage ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:producedBy ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:searchThreshold ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ;
+        sh:minCount 1 ;
+        sh:message "A non-detection is only meaningful relative to the confidence threshold that produced it; without the threshold it records nothing." ;
+    ] .
+
+shape:ViewpointShape
+    a sh:NodeShape ;
+    sh:targetClass obs:Viewpoint ;
+    sh:property [
+        sh:path obs:hasPoseSource ;
+        sh:class obs:PoseSource ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:horizontalFov ;
+        sh:minCount 1 ;
+        sh:message "Field of view is needed to compute ground sample distance." ;
+    ] ;
+    sh:property [
+        sh:path obs:imageWidthPx ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+    ] .
+
+shape:EstimatedPoseShape
+    a sh:NodeShape ;
+    sh:targetClass obs:Viewpoint ;
+    sh:sparql [
+        sh:message "A viewpoint whose pose was estimated by reconstruction must carry its uncertainty. Poses from a depth-estimation pipeline are not survey grade, and the resulting error propagates into every coverage figure computed from them." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/observation#hasPoseSource>
+                      <https://w3id.org/cieo/observation#EstimatedPose> .
+                FILTER NOT EXISTS {
+                    $this <https://w3id.org/cieo/observation#poseUncertainty> ?u .
+                }
+            }
+        """ ;
+    ] .
+
+shape:SpatialGroundingShape
+    a sh:NodeShape ;
+    sh:targetClass obs:SpatialGrounding ;
+    sh:property [
+        sh:path obs:groundsObservation ; sh:minCount 1 ; sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:groundedTo ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:usesMethod ; sh:class obs:GroundingMethod ; sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path obs:groundingConfidence ;
+        sh:datatype xsd:decimal ; sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ;
+        sh:minCount 1 ;
+    ] .
+
+##############################################################################
+# Observation conditions
+##############################################################################
+
+shape:ObservationConditionShape
+    a sh:NodeShape ;
+    sh:targetClass evd:ObservationCondition ;
+    sh:property [ sh:path evd:assessesTarget ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:fromViewpoint ; sh:class obs:Viewpoint ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:computedBy ; sh:class evd:VisibilityAnalysis ; sh:minCount 1 ;
+                  sh:message "An observation condition must name the visibility analysis that produced it, so the geometry source and occluder set are recoverable." ] ;
+    sh:property [ sh:path evd:frustumCoverage ;    sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:unoccludedFraction ; sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:effectiveCoverage ;  sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:viewingDistance ;    sh:minInclusive 0.0 ; sh:minCount 1 ] ;
+    sh:property [ sh:path evd:incidenceAngle ;     sh:minInclusive 0.0 ; sh:maxInclusive 90.0 ; sh:minCount 1 ] ;
+    sh:property [ sh:path evd:groundSampleDistance ; sh:minInclusive 0.0 ; sh:minCount 1 ;
+                  sh:message "Ground sample distance is the resolution term of the detectability model; a condition without it cannot be scored." ] .
+
+shape:CoverageConsistencyShape
+    a sh:NodeShape ;
+    sh:targetClass evd:ObservationCondition ;
+    sh:sparql [
+        sh:message "Effective coverage exceeds frustum coverage, which is impossible: a target cannot be visible in a larger share than the share that fell inside the frame. Check the analyser's weighting." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/evidence#effectiveCoverage> ?eff ;
+                      <https://w3id.org/cieo/evidence#frustumCoverage> ?fru .
+                FILTER (?eff > ?fru + 0.001)
+            }
+        """ ;
+    ] .
+
+##############################################################################
+# Sufficiency
+##############################################################################
+
+shape:EvidenceSufficiencyShape
+    a sh:NodeShape ;
+    sh:targetClass evd:EvidenceSufficiency ;
+    sh:property [ sh:path evd:assessesItem ; sh:class insp:InspectionItem ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:hasSufficiencyLevel ; sh:class evd:SufficiencyLevel ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path evd:usesModel ; sh:class evd:SufficiencyModel ; sh:minCount 1 ; sh:maxCount 1 ;
+                  sh:message "A sufficiency assessment must name its model, because the ablation compares models and an unlabelled result cannot be attributed to one." ] ;
+    sh:property [ sh:path evd:sufficiencyRationale ; sh:datatype xsd:string ; sh:minCount 1 ;
+                  sh:message "Every sufficiency assessment must carry a human-readable rationale; an unexplained abstention is not actionable." ] .
+
+shape:BayesianSufficiencyShape
+    a sh:NodeShape ;
+    sh:targetClass evd:EvidenceSufficiency ;
+    sh:sparql [
+        sh:message "A sufficiency assessment using the Bayesian absence model must record its aggregated recall, its prior and its posterior. These are the quantities the conclusion rests on and they must be inspectable." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/evidence#usesModel>
+                      <https://w3id.org/cieo/evidence#BayesianAbsenceModel> .
+                FILTER (
+                    NOT EXISTS { $this <https://w3id.org/cieo/evidence#aggregatedRecall> ?r } ||
+                    NOT EXISTS { $this <https://w3id.org/cieo/evidence#priorPresence> ?p } ||
+                    NOT EXISTS { $this <https://w3id.org/cieo/evidence#posteriorAbsence> ?q }
+                )
+            }
+        """ ;
+    ] .
+
+##############################################################################
+# Decisions — the constraint that carries the framework's guarantee
+##############################################################################
+
+shape:InspectionDecisionShape
+    a sh:NodeShape ;
+    sh:targetClass cmp:InspectionDecision ;
+    sh:property [ sh:path cmp:hasState ; sh:class cmp:ComplianceState ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cmp:decidesItem ; sh:class insp:InspectionItem ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path cmp:hasRationale ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+    sh:property [ sh:path cmp:appliedRule ; sh:minCount 1 ;
+                  sh:message "Every decision must name the rule that produced it." ] ;
+    sh:property [ sh:path cmp:decidedAt ; sh:datatype xsd:dateTime ; sh:minCount 1 ] .
+
+shape:SettledDecisionShape
+    a sh:NodeShape ;
+    sh:targetClass cmp:InspectionDecision ;
+    sh:sparql [
+        sh:severity sh:Violation ;
+        sh:message "A decision in a settled state (Compliant or NonCompliant) is not gated by a sufficiency assessment at level Sufficient. This is the constraint the whole framework rests on: the system may not assert that a requirement is met or breached without having first established that the evidence was capable of settling it." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/compliance#hasState> ?state .
+                FILTER (?state IN (<https://w3id.org/cieo/compliance#Compliant>,
+                                   <https://w3id.org/cieo/compliance#NonCompliant>))
+                FILTER NOT EXISTS {
+                    $this <https://w3id.org/cieo/compliance#gatedBy> ?suff .
+                    ?suff <https://w3id.org/cieo/evidence#hasSufficiencyLevel>
+                          <https://w3id.org/cieo/evidence#Sufficient> .
+                }
+            }
+        """ ;
+    ] .
+
+shape:CitedClauseShape
+    a sh:NodeShape ;
+    sh:targetClass cmp:InspectionDecision ;
+    sh:sparql [
+        sh:message "A decision other than NotApplicable must cite a regulatory clause. An inspection finding that cannot be traced to the law it rests on is not usable in a regulatory context." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/compliance#hasState> ?state .
+                FILTER (?state != <https://w3id.org/cieo/compliance#NotApplicable>)
+                FILTER NOT EXISTS { $this <https://w3id.org/cieo/compliance#citesClause> ?c }
+            }
+        """ ;
+    ] .
+
+shape:DeferredDecisionActionShape
+    a sh:NodeShape ;
+    sh:targetClass cmp:InspectionDecision ;
+    sh:sparql [
+        sh:severity sh:Warning ;
+        sh:message "A deferred decision carries no recommended action. Abstention without an instruction leaves the inspector no better off than no system at all; say what would settle the item." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/compliance#hasState> ?state .
+                FILTER (?state IN (<https://w3id.org/cieo/compliance#InsufficientEvidence>,
+                                   <https://w3id.org/cieo/compliance#RequiresHumanVerification>))
+                FILTER NOT EXISTS { $this <https://w3id.org/cieo/compliance#recommendedAction> ?a }
+            }
+        """ ;
+    ] .
+
+##############################################################################
+# Regulatory temporal validity
+##############################################################################
+
+shape:ClauseInForceShape
+    a sh:NodeShape ;
+    sh:targetClass cmp:InspectionDecision ;
+    sh:sparql [
+        sh:severity sh:Warning ;
+        sh:message "A decision cites a clause from an instrument that was no longer in force at the time of the decision. Applicable law is a function of the date of the works, not the date of the software run." ;
+        sh:prefixes <https://w3id.org/cieo/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <https://w3id.org/cieo/compliance#citesClause> ?clause ;
+                      <https://w3id.org/cieo/compliance#decidedAt> ?when .
+                ?source <https://w3id.org/cieo/regulation#hasClause> ?clause ;
+                        <https://w3id.org/cieo/regulation#inForceUntil> ?until .
+                FILTER (xsd:date(SUBSTR(STR(?when), 1, 10)) > ?until)
+            }
+        """ ;
+    ] .
+
+##############################################################################
+# Prefix declarations used by the sh:sparql constraints
+##############################################################################
+
+<https://w3id.org/cieo/shapes>
+    sh:declare [ sh:prefix "insp" ; sh:namespace "https://w3id.org/cieo/inspection#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "obs"  ; sh:namespace "https://w3id.org/cieo/observation#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "evd"  ; sh:namespace "https://w3id.org/cieo/evidence#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "cmp"  ; sh:namespace "https://w3id.org/cieo/compliance#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "cst"  ; sh:namespace "https://w3id.org/cieo/construction#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "reg"  ; sh:namespace "https://w3id.org/cieo/regulation#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "cieo" ; sh:namespace "https://w3id.org/cieo/core#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "xsd"  ; sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .

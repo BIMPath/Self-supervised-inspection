@@ -1,0 +1,573 @@
+[
+  {
+    "image_id": "IMG_101",
+    "image_path": "data/images/selected/IMG_101.jpg",
+    "captured_at": "2026-04-14T09:00:00Z",
+    "viewpoint_id": "VP_101",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.93,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_102",
+    "image_path": "data/images/selected/IMG_102.jpg",
+    "captured_at": "2026-04-15T09:07:00Z",
+    "viewpoint_id": "VP_102",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.91,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_103",
+    "image_path": "data/images/selected/IMG_103.jpg",
+    "captured_at": "2026-04-16T09:14:00Z",
+    "viewpoint_id": "VP_103",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.88,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_104",
+    "image_path": "data/images/selected/IMG_104.jpg",
+    "captured_at": "2026-04-17T09:21:00Z",
+    "viewpoint_id": "VP_104",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.94,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_105",
+    "image_path": "data/images/selected/IMG_105.jpg",
+    "captured_at": "2026-04-18T09:28:00Z",
+    "viewpoint_id": "VP_105",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.9,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_106",
+    "image_path": "data/images/selected/IMG_106.jpg",
+    "captured_at": "2026-04-19T09:35:00Z",
+    "viewpoint_id": "VP_106",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.92,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_110",
+    "image_path": "data/images/selected/IMG_110.jpg",
+    "captured_at": "2026-04-14T09:42:00Z",
+    "viewpoint_id": "VP_110",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_120",
+    "image_path": "data/images/selected/IMG_120.jpg",
+    "captured_at": "2026-04-15T09:49:00Z",
+    "viewpoint_id": "VP_120",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.91,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_121",
+    "image_path": "data/images/selected/IMG_121.jpg",
+    "captured_at": "2026-04-16T09:56:00Z",
+    "viewpoint_id": "VP_121",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_122",
+    "image_path": "data/images/selected/IMG_122.jpg",
+    "captured_at": "2026-04-17T09:03:00Z",
+    "viewpoint_id": "VP_122",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "barrier",
+        "confidence": 0.89,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_130",
+    "image_path": "data/images/selected/IMG_130.jpg",
+    "captured_at": "2026-04-18T09:10:00Z",
+    "viewpoint_id": "VP_130",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "bolt",
+        "confidence": 0.89,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      },
+      {
+        "class": "nut",
+        "confidence": 0.86,
+        "x": 1840,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_131",
+    "image_path": "data/images/selected/IMG_131.jpg",
+    "captured_at": "2026-04-19T09:17:00Z",
+    "viewpoint_id": "VP_131",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "bolt",
+        "confidence": 0.87,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      },
+      {
+        "class": "nut",
+        "confidence": 0.88,
+        "x": 1840,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_132",
+    "image_path": "data/images/selected/IMG_132.jpg",
+    "captured_at": "2026-04-14T09:24:00Z",
+    "viewpoint_id": "VP_132",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "bolt",
+        "confidence": 0.84,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      },
+      {
+        "class": "nut",
+        "confidence": 0.82,
+        "x": 1840,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_140",
+    "image_path": "data/images/selected/IMG_140.jpg",
+    "captured_at": "2026-04-15T09:31:00Z",
+    "viewpoint_id": "VP_140",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_141",
+    "image_path": "data/images/selected/IMG_141.jpg",
+    "captured_at": "2026-04-16T09:38:00Z",
+    "viewpoint_id": "VP_141",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_142",
+    "image_path": "data/images/selected/IMG_142.jpg",
+    "captured_at": "2026-04-17T09:45:00Z",
+    "viewpoint_id": "VP_142",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_143",
+    "image_path": "data/images/selected/IMG_143.jpg",
+    "captured_at": "2026-04-18T09:52:00Z",
+    "viewpoint_id": "VP_143",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_144",
+    "image_path": "data/images/selected/IMG_144.jpg",
+    "captured_at": "2026-04-19T09:59:00Z",
+    "viewpoint_id": "VP_144",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_145",
+    "image_path": "data/images/selected/IMG_145.jpg",
+    "captured_at": "2026-04-14T09:06:00Z",
+    "viewpoint_id": "VP_145",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_146",
+    "image_path": "data/images/selected/IMG_146.jpg",
+    "captured_at": "2026-04-15T09:13:00Z",
+    "viewpoint_id": "VP_146",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_147",
+    "image_path": "data/images/selected/IMG_147.jpg",
+    "captured_at": "2026-04-16T09:20:00Z",
+    "viewpoint_id": "VP_147",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": []
+  },
+  {
+    "image_id": "IMG_150",
+    "image_path": "data/images/selected/IMG_150.jpg",
+    "captured_at": "2026-04-17T09:27:00Z",
+    "viewpoint_id": "VP_150",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "helmet",
+        "confidence": 0.92,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      },
+      {
+        "class": "vest",
+        "confidence": 0.9,
+        "x": 1840,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  },
+  {
+    "image_id": "IMG_151",
+    "image_path": "data/images/selected/IMG_151.jpg",
+    "captured_at": "2026-04-18T09:34:00Z",
+    "viewpoint_id": "VP_151",
+    "model": {
+      "id": "rf-detr-savigliano/3",
+      "architecture": "RF-DETR",
+      "confidence_threshold": 0.5,
+      "training_set_size": 98,
+      "validation_set_size": 28,
+      "test_set_size": 14,
+      "map": 0.686,
+      "precision": 0.673,
+      "recall": 0.667
+    },
+    "predictions": [
+      {
+        "class": "helmet",
+        "confidence": 0.89,
+        "x": 1800,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      },
+      {
+        "class": "vest",
+        "confidence": 0.91,
+        "x": 1840,
+        "y": 1300,
+        "width": 380,
+        "height": 260
+      }
+    ]
+  }
+]
